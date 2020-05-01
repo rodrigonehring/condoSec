@@ -1,0 +1,29 @@
+const { gql } = require('apollo-server')
+
+module.exports = gql`
+  type Resident {
+    id: ID!
+    name: String!
+    birthDate: String!
+    phoneNumber: String!
+    email: String!
+    cpf: String!
+    liveIn: Building
+  }
+
+  extend type Query {
+    resident(id: ID!): Resident!
+    residents: [Resident!]!
+  }
+
+  extend type Mutation {
+    createResident(
+      name: String!
+      birthDate: String!
+      phoneNumber: String!
+      email: String!
+      cpf: String!
+      liveIn: String
+    ): Resident!
+  }
+`
