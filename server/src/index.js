@@ -29,6 +29,12 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
+  formatError: (error) => ({
+    message: error.message,
+    state: error.originalError && error.originalError.state,
+    locations: error.locations,
+    path: error.path
+  }),
   context: async ({ req }) => {
     if (req) {
       const me = await getUser(req)
@@ -45,7 +51,10 @@ const server = new ApolloServer({
   }
 })
 
-server.applyMiddleware({ app, path: '/graphql' })
+server.applyMiddleware({
+  app,
+  path: '/graphql'
+})
 
 app.listen(5000, () => {
   mongoose.connect('mongodb://localhost:27017/condoSec', {

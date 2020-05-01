@@ -1,24 +1,48 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { AuthenticationError } = require('apollo-server')
+const ValidationError = require('../utils/ValidationError')
 
 module.exports = {
   Query: {
     async users(parent, _, { models: { userModel }, me }, info) {
       const users = await userModel.find().exec()
-      console.log('users', users)
       return users || []
     },
 
-    user: async (_, { id }, { models: { userModel }, me }, info) => {
+    async user(_, { id }, { models: { userModel }, me }) {
       if (!me) {
         throw new AuthenticationError('You are not authenticated')
       }
       const user = await userModel.findById({ _id: id }).exec()
       return user
+    }
+  },
+
+  Mutation: {
+    async createUser(_, { name, password, username }, { models: { userModel } }) {
+      const exist = await userModel.findOne({ username }).exec()
+
+      if (exist) {
+        throw new ValidationError([
+          { key: 'username', message: 'A user with this username already exists.' }
+        ])
+      }
+
+      const { value, error } = userModel.validate({ name, password, username })
+
+      console.log('validate', error)
+
+      if (error) {
+        throw new ValidationError(error.details, true)
+      }
+
+      const user = await userModel.create(value)
+
+      return user
     },
-    login: async (_, { name, password }, { models: { userModel } }, info) => {
-      const user = await userModel.findOne({ name }).exec()
+    async login(_, { username, password }, { models: { userModel } }) {
+      const user = await userModel.findOne({ username }).exec()
 
       if (!user) {
         throw new AuthenticationError('Invalid credentials')
@@ -33,25 +57,10 @@ module.exports = {
       const token = jwt.sign({ id: user.id }, 'SUPER_SECRET_KEY✌', { expiresIn: 24 * 10 * 50 })
 
       return {
+        name: user.name,
+        username: user.username,
         token
       }
     }
-  },
-  Mutation: {
-    createUser: async (_, { name, password }, { models: { userModel } }, info) => {
-      const user = await userModel.create({ name, password })
-      return user
-    }
-
-    // deleteUser: async (parent, { name, password }, { models: { userModel } }, info) => {
-    //   const user = await userModel.create({ name, password })
-    //   return user
-    // }
   }
-  // User: {
-  //   posts: async ({ id }, args, { models: { postModel } }, info) => {
-  //     const posts = await postModel.find({ author: id }).exec()
-  //     return posts
-  //   }
-  // }
 }
