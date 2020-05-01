@@ -1,13 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-  makeStyles,
-  IconButton,
-  Typography,
-  AppBar,
-  Toolbar,
-  Tooltip,
-  Container
-} from '@material-ui/core'
+import { makeStyles, IconButton, Typography, AppBar, Toolbar, Container } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import IconBack from '@material-ui/icons/ArrowBack'
@@ -41,11 +33,9 @@ export default function Layout({ children, pageTitle, backTo }) {
           <Typography variant="button" className={classes.user}>
             {state.user.name}
           </Typography>
-          <Tooltip title="Logout">
-            <IconButton color="inherit" onClick={handleLogout}>
-              <AccountCircle />
-            </IconButton>
-          </Tooltip>
+          <IconButton color="inherit" onClick={handleLogout}>
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </AppBar>
 

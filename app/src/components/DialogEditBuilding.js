@@ -1,18 +1,67 @@
-import React from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { Formik, Form } from 'formik'
 import { Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
+import { useMutation } from '@apollo/react-hooks'
 
 import TextField from './TextField'
+import { CREATE_BUILDING, UPDATE_BUILDING, GET_BUILDING } from '../graphQueries'
 
-function FormBuilding({ initialValues, open, handleClose }) {
-  const handleSubmit = console.log
+export function useDialogBuilding(data, createMode) {
+  const [state, setState] = useState({ open: false, values: data })
 
+  const toggle = useCallback(() => setState((s) => ({ ...s, open: !s.open })), [setState])
+  const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
+
+  const [mutate] = useMutation(createMode ? CREATE_BUILDING : UPDATE_BUILDING, {
+    update(cache, { data: { updateBuilding } }) {
+      cache.writeQuery({
+        query: GET_BUILDING,
+        variables: { id: updateBuilding.id },
+        data: { building: updateBuilding }
+      })
+    }
+  })
+
+  const handleSubmit = useCallback(
+    async (variables, form) => {
+      form.setSubmitting(true)
+
+      try {
+        const response = await mutate({ variables })
+        // props.history.push('/login')
+        createMode && alert('Building created!')
+        setState((s) => ({ ...s, open: false }))
+      } catch (error) {
+        if (error.message.includes('FormError')) {
+          form.setErrors(error.graphQLErrors[0].state)
+        } else {
+          alert(`Unknown error: ${error.message}`)
+        }
+
+        form.setSubmitting(false)
+      }
+    },
+    [mutate, createMode]
+  )
+
+  return useMemo(() => ({ ...state, toggle, setData, createMode, handleSubmit }), [
+    state,
+    toggle,
+    setData,
+    handleSubmit,
+    createMode
+  ])
+}
+
+const defaultValues = { name: '', block: '', number: '' }
+
+function FormBuilding({ values, open, toggle, createMode, handleSubmit }) {
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth onClose={handleClose}>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Dialog open={open} maxWidth="sm" fullWidth onClose={toggle}>
+      <Formik initialValues={values || defaultValues} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <DialogTitle>Edit building</DialogTitle>
+            <DialogTitle>{createMode ? 'Create' : 'Edit'} building</DialogTitle>
             <DialogContent>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12}>
@@ -28,9 +77,9 @@ function FormBuilding({ initialValues, open, handleClose }) {
               </Grid>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>cancel</Button>
+              <Button onClick={toggle}>cancel</Button>
               <Button type="submit" color="primary" variant="contained" disabled={isSubmitting}>
-                {isSubmitting ? 'sending' : 'update'}
+                {isSubmitting ? 'sending' : createMode ? 'create' : 'update'}
               </Button>
             </DialogActions>
           </Form>

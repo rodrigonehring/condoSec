@@ -1,28 +1,11 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+// import { Link } from 'react-router-dom'
 import { Button, Typography, Grid } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 
-import DialogEditBuilding from '../components/DialogEditBuilding'
+import DialogEditBuilding, { useDialogBuilding } from '../components/DialogEditBuilding'
 import LayoutApp from '../components/LayoutApp'
-
-const GET_BUILDINGS = gql`
-  query M($id: ID!) {
-    building(id: $id) {
-      name
-      id
-      block
-      number
-      mainResident {
-        name
-      }
-      residents {
-        name
-      }
-    }
-  }
-`
+import { GET_BUILDING } from '../graphQueries'
 
 function Details({ values }) {
   return (
@@ -47,30 +30,33 @@ function Details({ values }) {
 }
 
 export default function BuildingPage({ match }) {
-  const [dialogOpen, setDialog] = useState(false)
-  const { loading, error, data } = useQuery(GET_BUILDINGS, { variables: { id: match.params.id } })
+  const dialogState = useDialogBuilding()
+  const { loading, error, data } = useQuery(GET_BUILDING, { variables: { id: match.params.id } })
+
+  useEffect(() => {
+    console.log('Effect BuildingPage', data)
+    if (data) {
+      dialogState.setData(data.building)
+    }
+  }, [data, dialogState.setData])
 
   if (error) return <p>Error?... {error.message}</p>
 
   const pageTitle = data ? `Edit Building (${data.building.name})` : 'Edit Building'
 
-  console.log(data && data.building)
-
   return (
     <LayoutApp pageTitle={pageTitle} loading={loading} backTo="/app">
       {data && (
         <>
+          <br />
+          <br />
           <Details values={data.building} />
           <br />
           <br />
-          <Button variant="contained" color="primary" onClick={() => setDialog(true)}>
+          <Button variant="contained" color="primary" onClick={dialogState.toggle}>
             edit
           </Button>
-          <DialogEditBuilding
-            initialValues={data.building}
-            open={dialogOpen}
-            handleClose={() => setDialog(false)}
-          />
+          <DialogEditBuilding {...dialogState} />
         </>
       )}
     </LayoutApp>
