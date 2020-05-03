@@ -6,19 +6,29 @@ Deve existir um mecanismo de busca que permita encontrar todos os moradores de d
 Para conseguir acesso ao sistema, é necessário uma área onde os operadores possam efetuar a autenticação.
 Caso o operador não possua um cadastro, é necessário que o mesmo se cadastre para então efetuar a autenticação.
 
+```
 Building: {
-name: String,
-number: String,
-block: String,
-mainResident: Resident,
-residentsCount: Int,
+  name: String,
+  number: String,
+  block: String,
+  mainResident: Resident,
+  residentsCount: Int, @todo
 }
 
 Resident {
-name: String,
-birthDate: Date,
-phoneNumber: String,
-cpf: String,
-email: String,
-liveIn: Bulding
+  name: String,
+  birthDate: Date,
+  phoneNumber: String,
+  cpf: String,
+  email: String,
+  liveIn: Building
 }
+```
+
+### to run:
+- install mongodb and run service on default port
+- clone repository
+- yarn install inside /app and /server
+- yarn start on /app to run frontend code
+- yarn dev on /server to run graphql server
+
