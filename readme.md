@@ -11,7 +11,7 @@ name: String,
 number: String,
 block: String,
 mainResident: Resident,
-residents: [Resident],
+residentsCount: Int,
 }
 
 Resident {
@@ -20,4 +20,5 @@ birthDate: Date,
 phoneNumber: String,
 cpf: String,
 email: String,
+liveIn: Bulding
 }

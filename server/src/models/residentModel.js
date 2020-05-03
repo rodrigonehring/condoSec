@@ -1,6 +1,19 @@
 const mongoose = require('mongoose')
 
-const buildingModel = new mongoose.Schema({
+const Joi = require('@hapi/joi')
+
+const schema = Joi.object()
+  .options({ abortEarly: false, stripUnknown: true })
+  .keys({
+    name: Joi.string().min(3).max(30).required(),
+    birthDate: Joi.string(),
+    phoneNumber: Joi.string().required(),
+    cpf: Joi.string().required(),
+    email: Joi.string().required().email(),
+    liveIn: Joi.string().required()
+  })
+
+const residentModel = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -27,9 +40,16 @@ const buildingModel = new mongoose.Schema({
     required: true
   },
 
-  liveIn: mongoose.Schema.Types.ObjectId
+  liveIn: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Building'
+  }
 })
 
-const building = mongoose.model('Resident', buildingModel)
+const resident = mongoose.model('Resident', residentModel)
 
-module.exports = building
+resident.validate = (values) => {
+  return schema.validate(values)
+}
+
+module.exports = resident

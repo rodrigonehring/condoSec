@@ -13,7 +13,7 @@ module.exports = gql`
 
   extend type Query {
     resident(id: ID!): Resident!
-    residents: [Resident!]!
+    residents(liveIn: ID!): [Resident!]!
   }
 
   extend type Mutation {
@@ -23,7 +23,9 @@ module.exports = gql`
       phoneNumber: String!
       email: String!
       cpf: String!
-      liveIn: String
+      liveIn: ID!
     ): Resident!
+
+    deleteResident(id: ID!): Resident
   }
 `

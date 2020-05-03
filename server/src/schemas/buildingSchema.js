@@ -18,5 +18,6 @@ module.exports = gql`
   extend type Mutation {
     createBuilding(name: String!, number: String!, block: String!): Building!
     updateBuilding(id: ID!, name: String!, number: String!, block: String!): Building!
+    setMainResident(id: ID!, resident: ID!): Building!
   }
 `

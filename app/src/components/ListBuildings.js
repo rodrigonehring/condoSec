@@ -2,30 +2,12 @@ import React from 'react'
 import { makeStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import IconApartment from '@material-ui/icons/Apartment'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import { Link } from 'react-router-dom'
-
-const GET_BUILDINGS = gql`
-  query {
-    buildings {
-      name
-      id
-      block
-      number
-      mainResident {
-        name
-      }
-      residents {
-        name
-      }
-    }
-  }
-`
+import { GET_BUILDINGS } from '../graphQueries'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper
   }
 }))
