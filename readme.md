@@ -43,3 +43,7 @@ da pra mostrar quantas pessoas moram sem precisar fazer uma query no outro model
 - [ ] excluir condominio. Deletar todos os moradores junto?
 - [ ] adicionar busca. Talvez no /app, um input + select do tipo (building | resident)
 - [ ] melhorar a fake home page institucional.
+
+- [ ] jest nos resolvers do server
+- [ ] react-testing-library em alguns components do front
+- [ ] docker-compose.yml
