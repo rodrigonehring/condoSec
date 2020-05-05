@@ -35,11 +35,11 @@ Resident {
 
 ### TODO:
 
-- [ ] editar morador
-- [ ] ao editar morador, se ele for o principal, atualizar o cache do condominio
+- [x] editar morador
+- [x] ao editar morador, se ele for o principal, atualizar o cache do condominio
 - [ ] adicionar um count no condominio de moradores. Ao criar/excluir um morador, deve atualizar o count. Assim
       da pra mostrar quantas pessoas moram sem precisar fazer uma query no outro model.
-- [ ] datepicker no form do morador.
+- [x] datepicker no form do morador.
 - [ ] ao criar um condominio, redirecionar para a url dele, assim já pode adicionar um morador
 - [ ] excluir condominio. Deletar todos os moradores junto?
 - [ ] adicionar busca. Talvez no /app, um input + select do tipo (building | resident)
