@@ -6,7 +6,7 @@ const schema = Joi.object()
   .options({ abortEarly: false, stripUnknown: true })
   .keys({
     name: Joi.string().min(3).max(30).required(),
-    birthDate: Joi.string(),
+    birthdate: Joi.string(),
     phoneNumber: Joi.string().required(),
     cpf: Joi.string().required(),
     email: Joi.string().required().email(),
@@ -19,7 +19,7 @@ const residentModel = new mongoose.Schema({
     required: true
   },
 
-  birthDate: {
+  birthdate: {
     type: Date,
     required: true
   },

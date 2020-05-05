@@ -64,7 +64,7 @@ const resident = `
   cpf
   phoneNumber
   email
-  birthDate
+  birthdate
   liveIn { name }
 `
 
@@ -107,7 +107,7 @@ export const CREATE_RESIDENT = gql`
     $cpf: String!
     $email: String!
     $phoneNumber: String!
-    $birthDate: String!
+    $birthdate: String!
     $liveIn: ID!
   ) {
     createResident(
@@ -115,7 +115,7 @@ export const CREATE_RESIDENT = gql`
       cpf: $cpf
       email: $email
       phoneNumber: $phoneNumber
-      birthDate: $birthDate
+      birthdate: $birthdate
       liveIn: $liveIn
     ) {
       name

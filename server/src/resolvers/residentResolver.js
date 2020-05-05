@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 const ValidationError = require('../utils/ValidationError')
 
+function parseResident(item) {
+  item._doc.birthdate = item._doc.birthdate.toISOString()
+  return item
+}
+
 const resolver = {
   Query: {
     async resident(_, { id }, { models: { residentModel } }) {
@@ -12,7 +17,7 @@ const resolver = {
         })
         .exec()
 
-      return resident
+      return parseResident(resident)
     },
 
     async residents(_, { liveIn }, { models: { residentModel } }) {
@@ -24,13 +29,13 @@ const resolver = {
         })
         .exec()
 
-      return residents
+      return residents.map(parseResident)
     }
   },
   Mutation: {
     async createResident(
       _,
-      { name, birthDate, phoneNumber, email, cpf, liveIn },
+      { name, birthdate, phoneNumber, email, cpf, liveIn },
       { models: { residentModel } }
     ) {
       const exist = await residentModel.findOne({ cpf }).exec()
@@ -41,7 +46,7 @@ const resolver = {
 
       const { value, error } = residentModel.validate({
         name,
-        birthDate,
+        birthdate,
         phoneNumber,
         email,
         cpf,

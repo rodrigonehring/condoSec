@@ -4,7 +4,7 @@ module.exports = gql`
   type Resident {
     id: ID!
     name: String!
-    birthDate: String!
+    birthdate: String!
     phoneNumber: String!
     email: String!
     cpf: String!
@@ -19,7 +19,7 @@ module.exports = gql`
   extend type Mutation {
     createResident(
       name: String!
-      birthDate: String!
+      birthdate: String!
       phoneNumber: String!
       email: String!
       cpf: String!

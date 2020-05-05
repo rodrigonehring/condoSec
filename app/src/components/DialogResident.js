@@ -3,11 +3,12 @@ import { Formik, Form } from 'formik'
 import { Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 import { useMutation } from '@apollo/react-hooks'
 
+import DatePicker from './DatePicker'
 import TextField from './TextField'
 import { CREATE_RESIDENT, UPDATE_BUILDING, GET_RESIDENTS } from '../graphQueries'
 
-function numbersOnly(str) {
-  return str.match(/\d+/g).join('')
+function numbersOnly(str = '') {
+  return (str.match(/\d+/g) || []).join('')
 }
 
 export function useDialogResident() {
@@ -62,7 +63,7 @@ export function useDialogResident() {
   ])
 }
 
-const defaultValues = { name: '', cpf: '', email: '', phoneNumber: '', birthDate: '' }
+const defaultValues = { name: '', cpf: '', email: '', phoneNumber: '', birthdate: '' }
 
 function FormResident({ values, open, toggle, createMode, handleSubmit }) {
   return (
@@ -74,22 +75,22 @@ function FormResident({ values, open, toggle, createMode, handleSubmit }) {
             <DialogContent>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12}>
-                  <TextField name="name" label="name" required />
+                  <TextField name="name" label="Name" required />
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                  <TextField name="cpf" label="cpf" required />
+                  <TextField name="cpf" label="CPF" required />
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                  <TextField name="email" label="email" type="email" required />
+                  <TextField name="email" label="Email" type="email" required />
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <TextField name="birthDate" label="birthDate" required />
+                  <DatePicker name="birthdate" label="Birthdate" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField name="phoneNumber" label="phoneNumber" required />
+                  <TextField name="phoneNumber" label="Phone Number" required />
                 </Grid>
               </Grid>
             </DialogContent>

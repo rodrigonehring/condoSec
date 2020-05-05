@@ -17,7 +17,7 @@ Building: {
 
 Resident {
   name: String,
-  birthDate: Date,
+  birthdate: Date,
   phoneNumber: String,
   cpf: String,
   email: String,
@@ -26,18 +26,19 @@ Resident {
 ```
 
 ### to run:
+
 - install mongodb and run service on default port
 - clone repository
 - yarn install inside /app and /server
 - yarn start on /app to run frontend code
 - yarn dev on /server to run graphql server
 
-
 ### TODO:
+
 - [ ] editar morador
 - [ ] ao editar morador, se ele for o principal, atualizar o cache do condominio
 - [ ] adicionar um count no condominio de moradores. Ao criar/excluir um morador, deve atualizar o count. Assim
-da pra mostrar quantas pessoas moram sem precisar fazer uma query no outro model.
+      da pra mostrar quantas pessoas moram sem precisar fazer uma query no outro model.
 - [ ] datepicker no form do morador.
 - [ ] ao criar um condominio, redirecionar para a url dele, assim já pode adicionar um morador
 - [ ] excluir condominio. Deletar todos os moradores junto?
