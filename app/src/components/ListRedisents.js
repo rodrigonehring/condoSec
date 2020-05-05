@@ -25,12 +25,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function IconAction({ Icon, handleClick, label }) {
+function IconAction({ Icon, handleClick, label, disabled }) {
   return (
     <Tooltip title={label}>
-      <IconButton onClick={handleClick} aria-label={label}>
-        <Icon />
-      </IconButton>
+      <span>
+        <IconButton onClick={handleClick} disabled={disabled} aria-label={label}>
+          <Icon />
+        </IconButton>
+      </span>
     </Tooltip>
   )
 }
@@ -80,6 +82,7 @@ export default function ListResidents({ building, onSelect }) {
                 Icon={SupervisorIcon}
                 handleClick={() => handleSetMainResident(i)}
                 label="set main resident"
+                disabled={building.mainResident && building.mainResident.id === i.id}
               />
               <IconAction Icon={EditIcon} handleClick={() => onSelect(i)} label="edit resident" />
               <IconAction
