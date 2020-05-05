@@ -98,9 +98,8 @@ const resolver = {
     async deleteResident(_, { id }, { models: { residentModel } }) {
       console.log('delete resident', id)
 
+      // @todo: ao deletar, verificar se é mainResident e atualizar o building
       const response = await residentModel.findByIdAndDelete(id).exec()
-
-      console.log('re', response)
 
       return { id }
     }

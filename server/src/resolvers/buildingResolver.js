@@ -61,7 +61,13 @@ const resolver = {
 
       await buildingModel.updateOne({ _id: id }, { $set: value })
 
-      return buildingModel.findById({ _id: id }).exec()
+      return buildingModel
+        .findById({ _id: id })
+        .populate({
+          path: 'mainResident',
+          model: 'Resident'
+        })
+        .exec()
     },
 
     async setMainResident(_, { id, resident }, { models: { buildingModel } }) {
