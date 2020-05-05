@@ -18,9 +18,7 @@ export const UPDATE_BUILDING = gql`
       number
       mainResident {
         name
-      }
-      residents {
-        name
+        id
       }
     }
   }
@@ -35,9 +33,7 @@ export const GET_BUILDINGS = gql`
       number
       mainResident {
         name
-      }
-      residents {
-        name
+        id
       }
     }
   }
@@ -65,7 +61,7 @@ const resident = `
   phoneNumber
   email
   birthdate
-  liveIn { name }
+  liveIn { name, id }
 `
 
 export const GET_RESIDENT = gql`
