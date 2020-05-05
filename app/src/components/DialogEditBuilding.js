@@ -2,24 +2,20 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { Formik, Form } from 'formik'
 import { Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 import { useMutation } from '@apollo/react-hooks'
+import { useHistory } from 'react-router-dom'
 
 import TextField from './TextField'
-import { CREATE_BUILDING, UPDATE_BUILDING, GET_BUILDING } from '../graphQueries'
+import { CREATE_BUILDING, UPDATE_BUILDING, GET_BUILDINGS } from '../graphQueries'
 
 export function useDialogBuilding(data, createMode) {
+  const history = useHistory()
   const [state, setState] = useState({ open: false, values: data })
 
   const toggle = useCallback(() => setState((s) => ({ ...s, open: !s.open })), [setState])
   const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
 
   const [mutate] = useMutation(createMode ? CREATE_BUILDING : UPDATE_BUILDING, {
-    // update(cache, { data: { updateBuilding } }) {
-    //   cache.writeQuery({
-    //     query: GET_BUILDING,
-    //     variables: { id: updateBuilding.id },
-    //     data: { building: updateBuilding }
-    //   })
-    // }
+    refetchQueries: () => [{ query: GET_BUILDINGS }]
   })
 
   const handleSubmit = useCallback(
@@ -28,8 +24,7 @@ export function useDialogBuilding(data, createMode) {
 
       try {
         const response = await mutate({ variables })
-        // props.history.push('/login')
-        createMode && alert('Building created!')
+        createMode && history.push(`/app/building/${response.data.createBuilding.id}`)
         setState((s) => ({ ...s, open: false }))
       } catch (error) {
         if (error.message.includes('FormError')) {
@@ -56,6 +51,7 @@ export function useDialogBuilding(data, createMode) {
 const defaultValues = { name: '', block: '', number: '' }
 
 function FormBuilding({ values, open, toggle, createMode, handleSubmit }) {
+  console.log('FormBuilding', values, defaultValues)
   return (
     <Dialog open={open} maxWidth="sm" fullWidth onClose={toggle}>
       <Formik initialValues={values || defaultValues} onSubmit={handleSubmit}>

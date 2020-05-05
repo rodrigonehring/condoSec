@@ -12,7 +12,7 @@ Building: {
   number: String,
   block: String,
   mainResident: Resident,
-  residentsCount: Int, @todo
+  residentCount: Int
 }
 
 Resident {
@@ -37,7 +37,7 @@ Resident {
 
 - [x] editar morador
 - [x] ao editar morador, se ele for o principal, atualizar o cache do condominio
-- [ ] adicionar um count no condominio de moradores. Ao criar/excluir um morador, deve atualizar o count. Assim
+- [x] adicionar um count no condominio de moradores. Ao criar/excluir um morador, deve atualizar o count. Assim
       da pra mostrar quantas pessoas moram sem precisar fazer uma query no outro model.
 - [x] datepicker no form do morador.
 - [ ] ao criar um condominio, redirecionar para a url dele, assim já pode adicionar um morador

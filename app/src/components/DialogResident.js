@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks'
 
 import DatePicker from './DatePicker'
 import TextField from './TextField'
-import { CREATE_RESIDENT, UPDATE_RESIDENT, GET_RESIDENTS } from '../graphQueries'
+import { CREATE_RESIDENT, UPDATE_RESIDENT, GET_RESIDENTS, GET_BUILDING } from '../graphQueries'
 
 function numbersOnly(str = '') {
   return (str.match(/\d+/g) || []).join('')
@@ -22,7 +22,10 @@ export function useDialogResident() {
   const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
 
   const [mutate] = useMutation(state.createMode ? CREATE_RESIDENT : UPDATE_RESIDENT, {
-    refetchQueries: () => [{ query: GET_RESIDENTS, variables: { liveIn: state.buildingId } }]
+    refetchQueries: () => [
+      { query: GET_RESIDENTS, variables: { liveIn: state.buildingId } },
+      state.createMode && { query: GET_BUILDING, variables: { id: state.buildingId } }
+    ]
   })
 
   const handleSubmit = useCallback(

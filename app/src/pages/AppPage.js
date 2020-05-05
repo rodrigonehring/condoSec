@@ -5,7 +5,7 @@ import ListBuildings from '../components/ListBuildings'
 import DialogEditBuilding, { useDialogBuilding } from '../components/DialogEditBuilding'
 
 export default function AppPage() {
-  const dialogState = useDialogBuilding({}, true)
+  const dialogState = useDialogBuilding(null, true)
 
   return (
     <LayoutApp pageTitle="Dashboard">

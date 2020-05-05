@@ -39,6 +39,9 @@ const resolver = {
         throw new ValidationError(error.details, true)
       }
 
+      // initialize
+      value.residentCount = 0
+
       const building = await buildingModel.create(value)
 
       return building

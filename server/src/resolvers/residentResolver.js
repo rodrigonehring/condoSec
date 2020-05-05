@@ -36,7 +36,7 @@ const resolver = {
     async createResident(
       _,
       { name, birthdate, phoneNumber, email, cpf, liveIn },
-      { models: { residentModel } }
+      { models: { residentModel, buildingModel } }
     ) {
       const exist = await residentModel.findOne({ cpf }).exec()
 
@@ -63,6 +63,8 @@ const resolver = {
         ...value,
         liveIn: mongoose.Types.ObjectId(liveIn)
       })
+
+      await buildingModel.updateOne({ _id: liveIn }, { $inc: { residentCount: 1 } })
 
       return resdient
     },
@@ -95,11 +97,15 @@ const resolver = {
         .exec()
     },
 
-    async deleteResident(_, { id }, { models: { residentModel } }) {
-      console.log('delete resident', id)
+    async deleteResident(_, { id }, { models: { residentModel, buildingModel } }) {
+      const resident = await residentModel.findById({ _id: id }).exec()
+
+      console.log('delete resident', id, resident)
 
       // @todo: ao deletar, verificar se é mainResident e atualizar o building
       const response = await residentModel.findByIdAndDelete(id).exec()
+
+      await buildingModel.updateOne({ _id: resident.liveIn }, { $inc: { residentCount: -1 } })
 
       return { id }
     }

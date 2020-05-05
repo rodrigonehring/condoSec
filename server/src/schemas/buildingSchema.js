@@ -7,7 +7,7 @@ module.exports = gql`
     number: String!
     block: String!
     mainResident: Resident
-    residents: [Resident]
+    residentCount: Int!
   }
 
   extend type Query {

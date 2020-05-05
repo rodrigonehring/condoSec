@@ -6,9 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemSecondaryAction,
-  IconButton,
-  Typography,
-  Tooltip
+  Typography
 } from '@material-ui/core'
 import IconPerson from '@material-ui/icons/Person'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -17,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import SupervisorIcon from '@material-ui/icons/SupervisorAccount'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { GET_RESIDENTS, GET_BUILDING, DELETE_RESIDENT, SET_MAIN_RESIDENT } from '../graphQueries'
+import IconAction from './IconAction'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,24 +24,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function IconAction({ Icon, handleClick, label, disabled }) {
-  return (
-    <Tooltip title={label}>
-      <span>
-        <IconButton onClick={handleClick} disabled={disabled} aria-label={label}>
-          <Icon />
-        </IconButton>
-      </span>
-    </Tooltip>
-  )
-}
-
 export default function ListResidents({ building, onSelect }) {
   const classes = useStyles()
 
   const { loading, error, data } = useQuery(GET_RESIDENTS, { variables: { liveIn: building.id } })
   const [mutateDelete] = useMutation(DELETE_RESIDENT, {
-    refetchQueries: () => [{ query: GET_RESIDENTS, variables: { liveIn: building.id } }]
+    refetchQueries: () => [
+      { query: GET_RESIDENTS, variables: { liveIn: building.id } },
+      { query: GET_BUILDING, variables: { id: building.id } }
+    ]
   })
   const [mutateMainResident] = useMutation(SET_MAIN_RESIDENT, {
     refetchQueries: () => [{ query: GET_BUILDING, variables: { id: building.id } }]
@@ -80,18 +70,18 @@ export default function ListResidents({ building, onSelect }) {
             <ListItemSecondaryAction>
               <IconAction
                 Icon={SupervisorIcon}
-                handleClick={() => handleSetMainResident(i)}
+                onClick={() => handleSetMainResident(i)}
                 label="set main resident"
                 disabled={building.mainResident && building.mainResident.id === i.id}
               />
               <IconAction
                 Icon={EditIcon}
-                handleClick={() => onSelect(i, building.id)}
+                onClick={() => onSelect(i, building.id)}
                 label="edit resident"
               />
               <IconAction
                 Icon={DeleteIcon}
-                handleClick={() => handleDelete(i)}
+                onClick={() => handleDelete(i)}
                 label="delete resident"
               />
             </ListItemSecondaryAction>

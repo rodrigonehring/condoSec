@@ -28,6 +28,8 @@ const buildingModel = new mongoose.Schema({
     required: true
   },
 
+  residentCount: Number,
+
   mainResident: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Resident'

@@ -5,6 +5,7 @@ export const CREATE_BUILDING = gql`
     createBuilding(name: $name, number: $number, block: $block) {
       name
       id
+      residentCount
     }
   }
 `
@@ -20,6 +21,7 @@ export const UPDATE_BUILDING = gql`
         name
         id
       }
+      residentCount
     }
   }
 `
@@ -31,6 +33,7 @@ export const GET_BUILDINGS = gql`
       id
       block
       number
+      residentCount
       mainResident {
         name
         id
@@ -46,6 +49,7 @@ export const GET_BUILDING = gql`
       id
       block
       number
+      residentCount
       mainResident {
         name
         id
