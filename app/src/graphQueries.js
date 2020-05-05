@@ -102,13 +102,13 @@ export const SET_MAIN_RESIDENT = gql`
 `
 
 export const CREATE_RESIDENT = gql`
-  mutation m(
+  mutation createResident(
     $name: String!
     $cpf: String!
     $email: String!
     $phoneNumber: String!
     $birthdate: String!
-    $liveIn: ID!
+    $liveIn: String!
   ) {
     createResident(
       name: $name
@@ -117,6 +117,29 @@ export const CREATE_RESIDENT = gql`
       phoneNumber: $phoneNumber
       birthdate: $birthdate
       liveIn: $liveIn
+    ) {
+      name
+      id
+    }
+  }
+`
+
+export const UPDATE_RESIDENT = gql`
+  mutation updateResident(
+    $id: ID!
+    $name: String!
+    $cpf: String!
+    $email: String!
+    $phoneNumber: String!
+    $birthdate: String!
+  ) {
+    updateResident(
+      id: $id
+      name: $name
+      cpf: $cpf
+      email: $email
+      phoneNumber: $phoneNumber
+      birthdate: $birthdate
     ) {
       name
       id

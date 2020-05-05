@@ -49,8 +49,7 @@ const resolver = {
         birthdate,
         phoneNumber,
         email,
-        cpf,
-        liveIn
+        cpf
       })
 
       console.log('value', value)
@@ -62,10 +61,38 @@ const resolver = {
 
       const resdient = await residentModel.create({
         ...value,
-        liveIn: mongoose.Types.ObjectId(value.liveIn)
+        liveIn: mongoose.Types.ObjectId(liveIn)
       })
 
       return resdient
+    },
+
+    async updateResident(
+      _,
+      { id, name, birthdate, phoneNumber, email, cpf, liveIn },
+      { models: { residentModel } }
+    ) {
+      const { value, error } = residentModel.validate({
+        name,
+        birthdate,
+        phoneNumber,
+        email,
+        cpf
+      })
+
+      if (error) {
+        throw new ValidationError(error.details, true)
+      }
+
+      await residentModel.updateOne({ _id: id }, { $set: value })
+
+      return residentModel
+        .findById({ _id: id })
+        .populate({
+          path: 'liveIn',
+          model: 'Building'
+        })
+        .exec()
     },
 
     async deleteResident(_, { id }, { models: { residentModel } }) {

@@ -84,7 +84,11 @@ export default function ListResidents({ building, onSelect }) {
                 label="set main resident"
                 disabled={building.mainResident && building.mainResident.id === i.id}
               />
-              <IconAction Icon={EditIcon} handleClick={() => onSelect(i)} label="edit resident" />
+              <IconAction
+                Icon={EditIcon}
+                handleClick={() => onSelect(i, building.id)}
+                label="edit resident"
+              />
               <IconAction
                 Icon={DeleteIcon}
                 handleClick={() => handleDelete(i)}

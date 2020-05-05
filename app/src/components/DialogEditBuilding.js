@@ -13,13 +13,13 @@ export function useDialogBuilding(data, createMode) {
   const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
 
   const [mutate] = useMutation(createMode ? CREATE_BUILDING : UPDATE_BUILDING, {
-    update(cache, { data: { updateBuilding } }) {
-      cache.writeQuery({
-        query: GET_BUILDING,
-        variables: { id: updateBuilding.id },
-        data: { building: updateBuilding }
-      })
-    }
+    // update(cache, { data: { updateBuilding } }) {
+    //   cache.writeQuery({
+    //     query: GET_BUILDING,
+    //     variables: { id: updateBuilding.id },
+    //     data: { building: updateBuilding }
+    //   })
+    // }
   })
 
   const handleSubmit = useCallback(

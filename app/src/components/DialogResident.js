@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks'
 
 import DatePicker from './DatePicker'
 import TextField from './TextField'
-import { CREATE_RESIDENT, UPDATE_BUILDING, GET_RESIDENTS } from '../graphQueries'
+import { CREATE_RESIDENT, UPDATE_RESIDENT, GET_RESIDENTS } from '../graphQueries'
 
 function numbersOnly(str = '') {
   return (str.match(/\d+/g) || []).join('')
@@ -21,7 +21,7 @@ export function useDialogResident() {
   const toggle = useCallback(() => setState((s) => ({ ...s, open: !s.open })), [setState])
   const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
 
-  const [mutate] = useMutation(state.createMode ? CREATE_RESIDENT : UPDATE_BUILDING, {
+  const [mutate] = useMutation(state.createMode ? CREATE_RESIDENT : UPDATE_RESIDENT, {
     refetchQueries: () => [{ query: GET_RESIDENTS, variables: { liveIn: state.buildingId } }]
   })
 
@@ -31,10 +31,13 @@ export function useDialogResident() {
 
       const variables = {
         ...values,
-        liveIn: state.buildingId,
         cpf: numbersOnly(values.cpf),
         phoneNumber: numbersOnly(values.phoneNumber)
       }
+
+      if (state.buildingId) variables.liveIn = state.buildingId
+
+      console.log('handleSubmit', { values, state, variables })
 
       try {
         const response = await mutate({ variables })

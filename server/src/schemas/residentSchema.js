@@ -23,7 +23,16 @@ module.exports = gql`
       phoneNumber: String!
       email: String!
       cpf: String!
-      liveIn: ID!
+      liveIn: String!
+    ): Resident!
+
+    updateResident(
+      id: ID!
+      name: String!
+      birthdate: String!
+      phoneNumber: String!
+      email: String!
+      cpf: String!
     ): Resident!
 
     deleteResident(id: ID!): Resident
