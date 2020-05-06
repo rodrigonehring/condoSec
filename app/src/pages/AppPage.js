@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 import LayoutApp from '../components/LayoutApp'
 import ListBuildings from '../components/ListBuildings'
-import DialogEditBuilding, { useDialogBuilding } from '../components/DialogEditBuilding'
+import DialogEditBuilding, { useDialogBuilding } from '../components/DialogBuilding'
 
 export default function AppPage() {
   const dialogState = useDialogBuilding(null, true)
@@ -11,7 +11,7 @@ export default function AppPage() {
     <LayoutApp pageTitle="Dashboard">
       <br />
       <br />
-      <Button variant="contained" color="primary" onClick={dialogState.toggle}>
+      <Button variant="contained" color="primary" onClick={() => dialogState.openDialog()}>
         create building
       </Button>
       <br />

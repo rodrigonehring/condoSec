@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-// import { Link } from 'react-router-dom'
+import React from 'react'
 import { Button, Typography, Grid } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 
-import DialogEditBuilding, { useDialogBuilding } from '../components/DialogEditBuilding'
+import DialogEditBuilding, { useDialogBuilding } from '../components/DialogBuilding'
 import DialogResident, { useDialogResident } from '../components/DialogResident'
 import LayoutApp from '../components/LayoutApp'
 import ListRedisents from '../components/ListRedisents'
@@ -46,12 +45,6 @@ export default function BuildingPage({ match }) {
   const dialogResident = useDialogResident()
   const { loading, error, data } = useQuery(GET_BUILDING, { variables: { id: match.params.id } })
 
-  useEffect(() => {
-    if (data) {
-      dialogBuilding.setData(data.building)
-    }
-  }, [data, dialogBuilding.setData])
-
   if (error) return <p>Error?... {error.message}</p>
 
   const pageTitle = data ? `Edit Building (${data.building.name})` : 'Edit Building'
@@ -65,7 +58,11 @@ export default function BuildingPage({ match }) {
           <Details values={data.building} />
           <br />
           <br />
-          <Button variant="contained" color="primary" onClick={dialogBuilding.toggle}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => dialogBuilding.openDialog(data.building)}
+          >
             edit building
           </Button>
           <Button

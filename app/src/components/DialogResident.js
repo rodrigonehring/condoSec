@@ -43,8 +43,7 @@ export function useDialogResident() {
       console.log('handleSubmit', { values, state, variables })
 
       try {
-        const response = await mutate({ variables })
-        // props.history.push('/login')
+        await mutate({ variables })
 
         setState((s) => ({ ...s, open: false }))
       } catch (error) {
@@ -57,7 +56,7 @@ export function useDialogResident() {
         form.setSubmitting(false)
       }
     },
-    [mutate, state.buildingId]
+    [mutate, state]
   )
 
   return useMemo(() => ({ ...state, toggle, setData, handleSubmit, openDialog }), [

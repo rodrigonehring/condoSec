@@ -7,14 +7,17 @@ import { useHistory } from 'react-router-dom'
 import TextField from './TextField'
 import { CREATE_BUILDING, UPDATE_BUILDING, GET_BUILDINGS } from '../graphQueries'
 
-export function useDialogBuilding(data, createMode) {
+export function useDialogBuilding() {
   const history = useHistory()
-  const [state, setState] = useState({ open: false, values: data })
+  const [state, setState] = useState({ open: false, values: null })
+
+  const openDialog = useCallback((values) => {
+    setState({ createMode: !values, values, open: true })
+  }, [])
 
   const toggle = useCallback(() => setState((s) => ({ ...s, open: !s.open })), [setState])
-  const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
 
-  const [mutate] = useMutation(createMode ? CREATE_BUILDING : UPDATE_BUILDING, {
+  const [mutate] = useMutation(state.createMode ? CREATE_BUILDING : UPDATE_BUILDING, {
     refetchQueries: () => [{ query: GET_BUILDINGS }]
   })
 
@@ -22,9 +25,11 @@ export function useDialogBuilding(data, createMode) {
     async (variables, form) => {
       form.setSubmitting(true)
 
+      console.log('submit form', state, variables)
+
       try {
         const response = await mutate({ variables })
-        createMode && history.push(`/app/building/${response.data.createBuilding.id}`)
+        state.createMode && history.push(`/app/building/${response.data.createBuilding.id}`)
         setState((s) => ({ ...s, open: false }))
       } catch (error) {
         if (error.message.includes('FormError')) {
@@ -36,22 +41,22 @@ export function useDialogBuilding(data, createMode) {
         form.setSubmitting(false)
       }
     },
-    [mutate, createMode]
+    [mutate, state, history]
   )
 
-  return useMemo(() => ({ ...state, toggle, setData, createMode, handleSubmit }), [
+  console.log('Dialog render', state)
+
+  return useMemo(() => ({ ...state, toggle, handleSubmit, openDialog }), [
     state,
     toggle,
-    setData,
     handleSubmit,
-    createMode
+    openDialog
   ])
 }
 
 const defaultValues = { name: '', block: '', number: '' }
 
 function FormBuilding({ values, open, toggle, createMode, handleSubmit }) {
-  console.log('FormBuilding', values, defaultValues)
   return (
     <Dialog open={open} maxWidth="sm" fullWidth onClose={toggle}>
       <Formik initialValues={values || defaultValues} onSubmit={handleSubmit}>

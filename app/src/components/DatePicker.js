@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import enLocale from 'date-fns/locale/en-US'
 import DateFnsAdapter from '@material-ui/pickers/adapter/date-fns'
 import { DatePicker, LocalizationProvider } from '@material-ui/pickers'

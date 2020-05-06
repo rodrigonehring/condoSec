@@ -48,12 +48,6 @@ export default function ListBuildings() {
             </ListItemIcon>
             <ListItemText primary={i.name} secondary={`Number: ${i.number} - Block: ${i.block}`} />
             <ListItemSecondaryAction>
-              {/* <IconAction
-                Icon={SupervisorIcon}
-                handleClick={() => handleSetMainResident(i)}
-                label="set main resident"
-                disabled={building.mainResident && building.mainResident.id === i.id}
-              />*/}
               <IconAction
                 Icon={IconPerson}
                 badgeContent={i.residentCount}
