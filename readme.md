@@ -27,11 +27,8 @@ Resident {
 
 ### to run:
 
-- install mongodb and run service on default port
-- clone repository
-- yarn install inside /app and /server
-- yarn start on /app to run frontend code
-- yarn dev on /server to run graphql server
+- install docker
+- docker-compose up
 
 ### TODO:
 
@@ -47,4 +44,4 @@ Resident {
 
 - [ ] jest nos resolvers do server
 - [ ] react-testing-library em alguns components do front
-- [ ] docker-compose.yml
+- [x] docker-compose.yml
