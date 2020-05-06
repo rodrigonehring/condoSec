@@ -13,7 +13,6 @@ const LOGIN = gql`
     login(username: $username, password: $password) {
       token
       name
-      id
     }
   }
 `
@@ -26,9 +25,7 @@ export default function LoginPage(props) {
     form.setSubmitting(true)
 
     try {
-      const response = await login({
-        variables: { name: values.username, password: values.password }
-      })
+      const response = await login({ variables: values })
 
       appState.handleLogin(response.data.login)
       props.history.push('/app')
