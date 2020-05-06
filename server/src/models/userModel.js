@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 const Joi = require('@hapi/joi')
 
@@ -13,8 +13,8 @@ const schema = Joi.object()
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+    required: true
+    // unique: true
   },
   name: {
     type: String,
@@ -27,11 +27,11 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.pre('save', function () {
-  const hashedPassword = bcrypt.hashSync(this.password, 12)
-  this.password = hashedPassword
+  const salt = bcrypt.genSaltSync(10)
+  this.password = bcrypt.hashSync(this.password, salt)
 })
 
-const user = mongoose.model('user', userSchema)
+const user = mongoose.model('User', userSchema)
 
 user.validate = (values) => {
   return schema.validate(values)

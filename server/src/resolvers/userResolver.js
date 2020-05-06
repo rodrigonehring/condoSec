@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { AuthenticationError } = require('apollo-server')
 const ValidationError = require('../utils/ValidationError')
@@ -21,6 +21,7 @@ module.exports = {
 
   Mutation: {
     async createUser(_, { name, password, username }, { models: { userModel } }) {
+      console.log('createUser', name, username)
       const exist = await userModel.findOne({ username }).exec()
 
       if (exist) {
@@ -31,13 +32,11 @@ module.exports = {
 
       const { value, error } = userModel.validate({ name, password, username })
 
-      console.log('validate', error)
-
       if (error) {
         throw new ValidationError(error.details, true)
       }
 
-      const user = await userModel.create(value)
+      const user = await userModel.create(value).catch(console.error)
 
       return user
     },

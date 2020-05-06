@@ -19,7 +19,7 @@ const getUser = async (req) => {
 
   if (token) {
     try {
-      return await jwt.verify(token, 'SUPER_SECRET_KEY✌')
+      return jwt.verify(token, 'SUPER_SECRET_KEY✌')
     } catch (e) {
       throw new AuthenticationError('Your session expired. Sign in again.')
     }
@@ -57,11 +57,15 @@ server.applyMiddleware({
 })
 
 app.listen(5000, () => {
-  mongoose.connect('mongodb://localhost:27017/condoSec', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-  })
+  mongoose.set('debug', true)
+
+  mongoose
+    .connect(`mongodb://mongodb_container:27017/condoSec`, {
+      // useNewUrlParser: true,
+      // useCreateIndex: true,
+      // useUnifiedTopology: true
+    })
+    .catch(console.log)
 
   console.log('\n\n🚀 Server running on https://localhost:5000 🚀\n\n')
 })

@@ -9,10 +9,11 @@ import TextField from '../components/TextField'
 import { useAppState } from '../AppProvider'
 
 const LOGIN = gql`
-  mutation login($name: String!, $password: String!) {
-    login(name: $name, password: $password) {
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       token
       name
+      id
     }
   }
 `

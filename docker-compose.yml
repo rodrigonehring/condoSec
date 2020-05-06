@@ -1,0 +1,51 @@
+version: '3.7'
+services:
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: condoSec
+      # MONGO_INITDB_ROOT_USERNAME: root
+      # MONGO_INITDB_ROOT_PASSWORD: supersecret
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+  server:
+    build:
+      context: ./server/
+    command: /usr/app/node_modules/.bin/nodemon src/index.js
+    volumes:
+      - ./server/:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongodb_container
+    links:
+      - mongodb_container
+
+  app:
+    build:
+      context: ./app/
+    stdin_open: true
+    tty: true
+    # command: /usr/app/node_modules/.bin/nodemon src/index.js
+    environment:
+      NODE_ENV: development
+      BROWSER: none
+      PORT: 3000
+    working_dir: /usr/app
+    command: yarn start
+    volumes:
+      - ./app/:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - '3000:3000'
+    links:
+      - server
+
+volumes:
+  mongodb_data_container:
+  server:
+  app:
