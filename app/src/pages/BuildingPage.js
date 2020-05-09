@@ -1,12 +1,20 @@
 import React from 'react'
 import { Button, Typography, Grid } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
+import { makeStyles } from '@material-ui/core/styles'
 
 import DialogEditBuilding, { useDialogBuilding } from '../components/DialogBuilding'
 import DialogResident, { useDialogResident } from '../components/DialogResident'
 import LayoutApp from '../components/LayoutApp'
-import ListRedisents from '../components/ListRedisents'
+import ListResidents from '../components/ListResidents'
 import { GET_BUILDING } from '../graphQueries'
+
+const useStyles = makeStyles((theme) => ({
+  bar: {
+    marginTop: 16,
+    display: 'flex'
+  }
+}))
 
 function Details({ values }) {
   const mainResident = values.mainResident && values.mainResident.name
@@ -41,6 +49,7 @@ function Details({ values }) {
 }
 
 export default function BuildingPage({ match }) {
+  const classes = useStyles()
   const dialogBuilding = useDialogBuilding()
   const dialogResident = useDialogResident()
   const { loading, error, data } = useQuery(GET_BUILDING, { variables: { id: match.params.id } })
@@ -53,33 +62,32 @@ export default function BuildingPage({ match }) {
     <LayoutApp pageTitle={pageTitle} loading={loading} backTo="/app">
       {data && (
         <>
-          <br />
-          <br />
           <Details values={data.building} />
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => dialogBuilding.openDialog(data.building)}
-          >
-            edit building
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginLeft: 8 }}
-            onClick={() => dialogResident.openDialog(false, data.building.id)}
-          >
-            add resident
-          </Button>
+
+          <div className={classes.bar}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => dialogBuilding.openDialog(data.building)}
+            >
+              edit building
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginLeft: 8 }}
+              onClick={() => dialogResident.openDialog(false, data.building.id)}
+            >
+              add resident
+            </Button>
+          </div>
 
           <DialogEditBuilding {...dialogBuilding} />
           <DialogResident {...dialogResident} />
           <br />
           <br />
           <br />
-          <ListRedisents building={data.building} onSelect={dialogResident.openDialog} />
+          <ListResidents building={data.building} onSelect={dialogResident.openDialog} />
         </>
       )}
     </LayoutApp>

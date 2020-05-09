@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import AppPage from './pages/AppPage'
 import BuildingPage from './pages/BuildingPage'
+import SearchPage from './pages/SearchPage'
 
 function Protected({ children }) {
   const { state } = useAppState()
@@ -42,6 +43,8 @@ function App() {
                   <Protected>
                     <Switch>
                       <Route exact path="/app/building/:id" component={BuildingPage} />
+                      <Route exact path="/app/search" component={SearchPage} />
+
                       <Route component={AppPage} />
                     </Switch>
                   </Protected>

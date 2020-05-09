@@ -44,8 +44,6 @@ export function useDialogBuilding() {
     [mutate, state, history]
   )
 
-  console.log('Dialog render', state)
-
   return useMemo(() => ({ ...state, toggle, handleSubmit, openDialog }), [
     state,
     toggle,

@@ -20,9 +20,22 @@ const resolver = {
       return parseResident(resident)
     },
 
-    async residents(_, { liveIn }, { models: { residentModel } }) {
+    async residents(_, { liveIn, q }, { models: { residentModel } }) {
+      console.log('get residents', q)
+
+      let query
+
+      if (liveIn) {
+        query = { liveIn }
+      }
+
+      if (q) {
+        const reg = new RegExp(q, 'i')
+        query = { $or: [{ name: reg }, { cpf: reg }, { email: reg }] }
+      }
+
       const residents = await residentModel
-        .find({ liveIn })
+        .find(query)
         .populate({
           path: 'liveIn',
           model: 'Building'

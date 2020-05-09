@@ -21,6 +21,24 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper
+  },
+  actions: {
+    [theme.breakpoints.down('sm')]: {
+      position: 'initial',
+      justifyContent: 'space-around',
+      display: 'flex',
+      transform: 'none'
+    }
+  },
+  item: {
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: 16
+    }
+  },
+  rootItem: {
+    '&:not(:last-child)': {
+      borderBottom: `1px solid ${theme.palette.background.default}`
+    }
   }
 }))
 
@@ -58,7 +76,7 @@ export default function ListResidents({ building, onSelect }) {
     <div className={classes.root}>
       <List component="nav">
         {data.residents.map((i) => (
-          <ListItem key={i.id}>
+          <ListItem key={i.id} className={classes.item} classes={{ container: classes.rootItem }}>
             <ListItemIcon>
               {building.mainResident && building.mainResident.id === i.id ? (
                 <StarIcon />
@@ -67,7 +85,7 @@ export default function ListResidents({ building, onSelect }) {
               )}
             </ListItemIcon>
             <ListItemText primary={i.name} secondary={`cpf: ${i.cpf} - email: ${i.email}`} />
-            <ListItemSecondaryAction>
+            <ListItemSecondaryAction className={classes.actions}>
               <IconAction
                 Icon={SupervisorIcon}
                 onClick={() => handleSetMainResident(i)}

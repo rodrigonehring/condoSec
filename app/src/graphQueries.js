@@ -78,8 +78,8 @@ export const GET_RESIDENT = gql`
 
 // M($building: ID!)
 export const GET_RESIDENTS = gql`
-  query M($liveIn: ID!) {
-    residents(liveIn: $liveIn) {
+  query M($liveIn: ID, $q: String) {
+    residents(liveIn: $liveIn, q: $q) {
       ${resident}
     }
   }
