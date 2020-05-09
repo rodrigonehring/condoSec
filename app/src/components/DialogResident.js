@@ -22,10 +22,11 @@ export function useDialogResident() {
   const setData = useCallback((values) => setState((s) => ({ ...s, values })), [setState])
 
   const [mutate] = useMutation(state.createMode ? CREATE_RESIDENT : UPDATE_RESIDENT, {
-    refetchQueries: () => [
-      { query: GET_RESIDENTS, variables: { liveIn: state.buildingId } },
-      state.createMode && { query: GET_BUILDING, variables: { id: state.buildingId } }
-    ]
+    refetchQueries: () =>
+      [
+        { query: GET_RESIDENTS, variables: { liveIn: state.buildingId } },
+        state.createMode && { query: GET_BUILDING, variables: { id: state.buildingId } }
+      ].filter(Boolean)
   })
 
   const handleSubmit = useCallback(
