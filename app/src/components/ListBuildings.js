@@ -9,11 +9,11 @@ import {
   Typography
 } from '@material-ui/core'
 import IconApartment from '@material-ui/icons/Apartment'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import IconPerson from '@material-ui/icons/Person'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { GET_BUILDINGS } from '../graphQueries'
+import { GET_BUILDINGS, DELETE_BUILDING } from '../graphQueries'
 import IconAction from './IconAction'
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +26,12 @@ const useStyles = makeStyles((theme) => ({
 export default function ListBuildings() {
   const classes = useStyles()
   const { loading, error, data } = useQuery(GET_BUILDINGS)
+  const [mutateDelete] = useMutation(DELETE_BUILDING, {
+    refetchQueries: () => [{ query: GET_BUILDINGS }]
+  })
 
   const handleDelete = (item) => {
-    if (window.confirm(`Delete ${item.name}?`)) console.warn({ variables: { id: item.id } })
+    if (window.confirm(`Delete ${item.name}?`)) mutateDelete({ variables: { id: item.id } })
   }
 
   if (loading) return <p>Loading...</p>

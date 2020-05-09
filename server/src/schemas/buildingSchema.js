@@ -19,5 +19,6 @@ module.exports = gql`
     createBuilding(name: String!, number: String!, block: String!): Building!
     updateBuilding(id: ID!, name: String!, number: String!, block: String!): Building!
     setMainResident(id: ID!, resident: ID!): Building!
+    deleteBuilding(id: ID!): Building
   }
 `

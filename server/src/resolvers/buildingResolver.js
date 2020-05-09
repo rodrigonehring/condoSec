@@ -81,6 +81,15 @@ const resolver = {
 
       console.log('setMainResident', id, resident)
       return { id, resident }
+    },
+
+    async deleteBuilding(_, { id }, { models: { buildingModel, residentModel } }) {
+      console.log('deleteBuilding', id)
+
+      await residentModel.deleteMany({ liveIn: id }).exec()
+      await buildingModel.findByIdAndDelete(id).exec()
+
+      return { id }
     }
   }
 }

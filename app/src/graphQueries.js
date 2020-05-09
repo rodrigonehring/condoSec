@@ -93,6 +93,14 @@ export const DELETE_RESIDENT = gql`
   }
 `
 
+export const DELETE_BUILDING = gql`
+  mutation M($id: ID!) {
+    deleteBuilding(id: $id) {
+      id
+    }
+  }
+`
+
 export const SET_MAIN_RESIDENT = gql`
   mutation M($id: ID!, $resident: ID!) {
     setMainResident(id: $id, resident: $resident) {
