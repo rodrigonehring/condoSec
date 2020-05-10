@@ -20,7 +20,7 @@ export default function SearchPage(props) {
   const classes = useStyles()
   const params = useMemo(() => new URLSearchParams(props.location.search), [props.location.search])
   const q = params.get('q')
-  const { loading, error, data } = useQuery(GET_RESIDENTS, { variables: { q } })
+  const { loading, data } = useQuery(GET_RESIDENTS, { variables: { q } })
 
   return (
     <LayoutApp pageTitle="Search" backTo="/app" q={q}>

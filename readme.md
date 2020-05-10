@@ -30,6 +30,10 @@ Resident {
 - install docker
 - docker-compose up
 
+Some tests on frontend:
+
+- cd /app && yarn && yarn test
+
 ### TODO:
 
 - [x] editar morador
@@ -39,9 +43,8 @@ Resident {
 - [x] datepicker no form do morador.
 - [x] ao criar um condominio, redirecionar para a url dele, assim já pode adicionar um morador
 - [x] excluir condominio. Deletar todos os moradores junto?
-- [x] adicionar busca. Talvez no /app, um input + select do tipo (building | resident)
+- [x] adicionar busca. Talvez no /app, um input + select do tipo resident
 - [x] melhorar a fake home page institucional.
 
-- [ ] jest nos resolvers do server
 - [ ] react-testing-library em alguns components do front
 - [x] docker-compose.yml
