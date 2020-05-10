@@ -46,5 +46,9 @@ Some tests on frontend:
 - [x] adicionar busca. Talvez no /app, um input + select do tipo resident
 - [x] melhorar a fake home page institucional.
 
-- [ ] react-testing-library em alguns components do front
+- [y] react-testing-library em alguns components do front (só alguns pra ter mesmo :/)
 - [x] docker-compose.yml
+
+### demo
+
+![sample apng](/demo.png?raw=true 'sample apng')
