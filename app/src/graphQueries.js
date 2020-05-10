@@ -76,6 +76,15 @@ export const GET_RESIDENT = gql`
   }
 `
 
+export const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      token
+      name
+    }
+  }
+`
+
 // M($building: ID!)
 export const GET_RESIDENTS = gql`
   query M($liveIn: ID, $q: String) {

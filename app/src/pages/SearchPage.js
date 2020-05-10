@@ -22,8 +22,6 @@ export default function SearchPage(props) {
   const q = params.get('q')
   const { loading, error, data } = useQuery(GET_RESIDENTS, { variables: { q } })
 
-  console.log(q, loading, error, data)
-
   return (
     <LayoutApp pageTitle="Search" backTo="/app" q={q}>
       {data && data.residents.length > 0 && (
@@ -43,8 +41,9 @@ export default function SearchPage(props) {
           ))}
         </div>
       )}
-
-      {!loading && data.residents.length === 0 && 'No results for this search.'}
+      {!loading && data.residents.length === 0 && (
+        <Typography>No results for this search.</Typography>
+      )}
     </LayoutApp>
   )
 }

@@ -9,13 +9,14 @@ const useStyles = makeStyles({
   }
 })
 
-function CustomTextField({ name, helperText, label, type, disabled, isSubmitting }) {
+function CustomTextField({ name, helperText, label, type, disabled, isSubmitting, ...props }) {
   const classes = useStyles()
   const [field, meta] = useField(name)
 
   return (
     <TextField
       {...field}
+      {...props}
       label={label}
       onChange={disabled ? null : field.onChange}
       disabled={disabled || isSubmitting}

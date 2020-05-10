@@ -3,19 +3,10 @@ import { Formik, Form } from 'formik'
 import { Button, Typography, Container } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useMutation } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
+import { LOGIN } from '../graphQueries'
 
 import TextField from '../components/TextField'
 import { useAppState } from '../AppProvider'
-
-const LOGIN = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      token
-      name
-    }
-  }
-`
 
 export default function LoginPage(props) {
   const appState = useAppState()
@@ -53,10 +44,27 @@ export default function LoginPage(props) {
       <Formik initialValues={{ username: 'rodrigo', password: '250592' }} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <TextField name="username" label="username" required />
-            <TextField name="password" type="password" label="password" required />
+            <TextField
+              name="username"
+              label="username"
+              inputProps={{ 'data-testid': 'username' }}
+              required
+            />
+            <TextField
+              name="password"
+              type="password"
+              inputProps={{ 'data-testid': 'password' }}
+              label="password"
+              required
+            />
 
-            <Button type="submit" color="primary" variant="outlined" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              color="primary"
+              variant="outlined"
+              data-testid="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'sending' : 'login'}
             </Button>
 

@@ -97,7 +97,7 @@ export default function SearchAppBar({ pageTitle, q }) {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search…"
+                placeholder="Search resdident…"
                 value={value}
                 onChange={handleChange}
                 classes={{

@@ -37,10 +37,10 @@ Resident {
 - [x] adicionar um count no condominio de moradores. Ao criar/excluir um morador, deve atualizar o count. Assim
       da pra mostrar quantas pessoas moram sem precisar fazer uma query no outro model.
 - [x] datepicker no form do morador.
-- [ ] ao criar um condominio, redirecionar para a url dele, assim já pode adicionar um morador
-- [ ] excluir condominio. Deletar todos os moradores junto?
-- [ ] adicionar busca. Talvez no /app, um input + select do tipo (building | resident)
-- [ ] melhorar a fake home page institucional.
+- [x] ao criar um condominio, redirecionar para a url dele, assim já pode adicionar um morador
+- [x] excluir condominio. Deletar todos os moradores junto?
+- [x] adicionar busca. Talvez no /app, um input + select do tipo (building | resident)
+- [x] melhorar a fake home page institucional.
 
 - [ ] jest nos resolvers do server
 - [ ] react-testing-library em alguns components do front
